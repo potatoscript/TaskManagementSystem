@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TaskManagement</title>
+    <link href="~/css/jquery-ui.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/fontawesome/css/all.css" />
+    <script src="~/js/jquery-3.6.0.js" asp-append-version="true"></script>
+    <script src="~/js/jquery-ui.js" asp-append-version="true"></script>
+    <script src="~/js/Chart.bundle.js" asp-append-version="true"></script>
+    <script src="~/js/Chart.label.js" asp-append-version="true"></script>
+    <script src="~/js/Chart.utils.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-1">
+            <div style="margin-left:-20px" class="container">
+
+
+                @{
+                    if (ViewBag.Url == "Home")
+                    {
+
+                        <a id="Excel" class="btn btn-outline-dark mx-1" style="background:#d6fca8"
+                           asp-area=""
+                           asp-controller="Shared"
+                           asp-action="Excel"
+                           asp-route-StartDate="@ViewBag.StartDate"
+                           asp-route-EndDate="@ViewBag.EndDate"
+                           asp-route-Url="@ViewBag.Url"
+                           asp-route-td_tms_id="@ViewBag.td_tms_id"
+                           asp-route-searchpic="@ViewBag.searchpic"
+                           asp-route-searchstatus="@ViewBag.searchstatus"
+                           asp-route-searchproject="@ViewBag.searchproject"
+                           asp-route-page="@ViewBag.page">Excel</a>
+
+                        var TotalOverDue = 0;
+                        if (ViewBag.TotalOVerDue != null) TotalOverDue = int.Parse(ViewBag.TotalOVerDue);
+                        if (TotalOverDue > 0)
+                        {
+                            <span id="TotalOverDue" class="delay" style="color:yellow">@ViewBag.TotalOverDue</span>
+                        }
+                        else
+                        {
+                            <span id="TotalOverDue">@ViewBag.TotalOverDue</span>
+                        }
+
+                        <input type="text" id="searchpic" name="searchpic" value="@ViewBag.searchpic" class="form-control">
+                        <input type="text" id="searchstatus" name="searchstatus" value="@ViewBag.searchstatus" class="form-control">
+
+                        <input type="text" id="searchproject" name="searchproject" value="@ViewBag.searchproject" class="form-control">
+                        <span>
+                            <a class="btn btn-outline-dark mx-0" id="btn_searchproject">
+                                <svg xmlns="http://www.w3.org/2000/svg" style="margin-left:-3px;margin-top:-3px"
+                                     width="13" height="13" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                </svg>
+                            </a>
+                        </span>
+
+                    }
+                }
+
+
+
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial.cshtml" />
+                    @*
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="btn btn-secondary mx-2" asp-area="" asp-controller="Project" asp-action="Index">HOME</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-secondary mx-2" asp-area="" asp-controller="Project" asp-action="List">PROJECT</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-secondary mx-2" asp-area="" asp-controller="Project" asp-action="Master">Master</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-secondary mx-2" asp-area="" asp-controller="Project" asp-action="Search">Search</a>
+                            </li>
+                        </ul>
+                    *@
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container" style="margin-left:-1px">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+
+    <div style="display:none" class="modal" tabindex="-1" id="form-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="btn-close" data-dismiss="modal">X</button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div style="display:none" id="div_process_delete"></div>
+    <div style="display:none" id="div_process"></div>
+    <div style="display:none" id="div_searchpic"></div>
+    <div style="display:none" id="div_searchstatus"></div>
+
+
+    <!--
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - TaskManagement - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    -->
+    
+</body>
+</html>

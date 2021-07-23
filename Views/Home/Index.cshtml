@@ -1,0 +1,603 @@
+﻿@*model TaskManagement.Models.DataModel*@
+@*model IEnumerable<TaskManagement.Models.DataModel>*@
+@using Microsoft.AspNetCore.Identity
+@using TaskManagement.Areas.Identity.Data
+@using  TaskManagement;
+@model dynamic
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+	//ViewData["Title"] = "Index";
+	ViewBag.Title = "Index";
+}
+
+<p style="display:none" id="finalProcess">@ViewBag.finalProcess</p>
+
+<form id="DataForm" asp-action="ReloadTable">
+	<div>
+		<table >
+			<tr>
+				@if (SignInManager.IsSignedIn(User))
+				{
+					<th>
+						<p style="margin-left:-20px;margin-top:13px;font-size:10px;cursor:pointer" 
+						   onclick="showInPopup(
+        '@Url.Action("Create", "Shared", 
+						   new { 
+						   Controllerx="Home", 
+						   StartDate = ViewBag.StartDate, 
+						   EndDate = ViewBag.EndDate,
+						   page=ViewBag.page, 
+						   searchpic=ViewBag.searchpic, 
+						   searchstatus=ViewBag.searchstatus, 
+						   searchproject=ViewBag.searchproject, 
+						   username = UserManager.GetUserName(User) },
+						   Context.Request.Scheme)', 'Create New');"
+						   class="btn btn-primary">
+							<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" style="margin-left:-3px;margin-top:-3px"
+								 fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+								<path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+							</svg>
+						</p>
+					</th>
+				}
+
+				<td>
+					<input class="startdate" id="startdate" name="StartDate" value=@ViewBag.StartDate />
+				</td>
+				<th>
+					~
+				</th>
+				<th>
+					<input class="enddate" id="enddate" name="EndDate" value=@ViewBag.EndDate />
+				</th>
+				<input id="page" style="display:none" name="page" value=@ViewBag.page />
+				@{
+					if (Model.Task.Count > 0)
+					{
+						var n = ViewBag.totalPerPage; //number per page
+						Double a = (double)Model.Task.Count / n;
+
+						var totalpage = Math.Ceiling(a);
+						if (totalpage < 1) totalpage = 1;
+						var k = 1;
+						for (var j = 0; j < totalpage; j++)
+						{
+							<th>
+								<input type="button" onclick="loadHomePage('@ViewBag.StartDate','@ViewBag.EndDate',@k,'@ViewBag.searchpic','@ViewBag.searchstatus' )" value="@k " class="btn btn-info" />
+							</th>
+							k++;
+						}
+
+					}
+
+				}
+
+			</tr>
+		</table>
+	</div>
+</form>
+
+
+<div id="div_data" class="div_data" onscroll="scrollx()">
+	<table id="table_data" runat="server">
+		<tr>
+			<th></th>
+			<th class="locked_left">
+				TASK
+			</th>
+			<th class="locked_left">
+				PIC
+			</th>
+			<th class="locked_left" style="display:none">
+				DueDate
+			</th>
+			<th  class="locked_left" style='width:150px;border-right:2px solid black'>
+				Remark
+			</th>
+			<th style='display:none'>ID</th>
+			<th style='display:none'>spec</th>
+			<th style='display:none'>email</th>
+
+			@for (var i = 0; i <= ViewBag.nDay; i++)
+			{
+				var culture = new System.Globalization.CultureInfo("ja");
+				try
+				{
+					char[] sp = { '-' };
+					var sdate = ViewBag.StartDate.Split(sp, StringSplitOptions.RemoveEmptyEntries);
+
+					DateTime startdate = Convert.ToDateTime(sdate[2] + "/" + sdate[1] + "/" + sdate[0] + " 12:10:15 PM", culture);
+
+					DayOfWeek day = startdate.AddDays(i).DayOfWeek;
+
+					var today_ = DateTime.Now.AddDays(0).ToString("yyyy/MM/dd");
+					var date_ = startdate.AddDays(i).ToString("yyy/MM/dd");
+
+					var color = "white";
+
+					switch (day.ToString())
+					{
+						case "Saturday":
+							color = "#e8e4ca";
+							break;
+						case "Sunday":
+							color = "#d8d7d3";
+							break;
+					}
+					if (date_ == today_)
+					{
+						<th style="border-top:2px solid red;border-left:2px solid red;border-right:2px solid red;background-color:@color">@startdate.AddDays(i).ToString("dd-MM")</th>
+					}
+					else
+					{
+						<th style="background-color:@color">@startdate.AddDays(i).ToString("dd-MM")</th>
+					}
+
+				}
+				catch (Exception e) { }
+			}
+		</tr>
+
+		<tr style="display:none">
+			<th></th>
+			<th>
+				TASK
+			</th>
+			<th>
+				PIC
+			</th>
+			<th>
+				DueDate
+			</th>
+			<th style='width:150px;'>
+				Remark
+			</th>
+			<th style='display:none'>ID</th>
+			<th style='display:none'>spec</th>
+			<th style='display:none'>email</th>
+
+			@for (var i = 0; i <= ViewBag.nDay; i++)
+			{
+
+				var culture = new System.Globalization.CultureInfo("ja");
+				try
+				{
+					char[] sp = { '-' };
+					var sdate = ViewBag.StartDate.Split(sp, StringSplitOptions.RemoveEmptyEntries);
+
+					DateTime startdate = Convert.ToDateTime(sdate[2] + "/" + sdate[1] + "/" + sdate[0] + " 12:10:15 PM", culture);
+
+					DayOfWeek day = startdate.AddDays(i).DayOfWeek;
+					<th>@startdate.AddDays(i).ToString("yyyMMdd")</th>
+				}
+				catch (Exception e) { }
+			}
+		</tr>
+
+
+		@if (Model.Task.Count > 0)
+		{
+
+			@*foreach (var item in Model.Task)*@
+        var n = ViewBag.totalPerPage;//number of data per page
+        var a = Int32.Parse(ViewBag.page) - 1;
+        var s = 0;
+        if (a > 0) s = a * n;
+        var t = Model.Task.Count;
+        if (s + n < t) t = s + n;
+        for (var j = s; j < t; j++)
+        {
+            if (Model.Task[j].pic != null)
+            {
+	<tr>
+		@if (
+Model.Task[j].email == UserManager.GetUserName(User) ||
+UserManager.GetUserName(User) == "superuser@nok.com"
+)
+		{
+		<td class="locked_left">
+			<a style="height:25px;width:25px"
+			   onclick="showInPopup('@Url.Action("Edit", "Shared",
+						new
+						{
+							id = Model.Task[j].Id,
+							StartDate = ViewBag.StartDate,
+							EndDate = ViewBag.EndDate,
+							page = ViewBag.page,
+							searchpic = ViewBag.searchpic,
+							searchstatus = ViewBag.searchstatus,
+							searchproject = ViewBag.searchproject,
+							Controllerx = "Home"
+						},
+						Context.Request.Scheme)','Edit');"
+			   class="btn btn-light">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-left:-10px;margin-top:-15px"
+					 fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+					<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+					<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+				</svg>
+			</a>
+			<a style="height:25px;width:25px;" 　
+			   asp-controller="Shared"
+			   asp-action="Delete"
+			   asp-route-confirm="true"
+			   asp-route-Id="@Model.Task[j].Id"
+			   asp-route-StartDate="@ViewBag.StartDate"
+			   asp-route-EndDate="@ViewBag.EndDate"
+			   asp-route-page="@ViewBag.page"
+			   asp-route-searchpic="@ViewBag.searchpic"
+			   asp-route-searchstatus="@ViewBag.searchstatus"
+			   asp-route-searchproject="@ViewBag.searchproject"
+			   asp-route-Controllerx="Home"
+			   onclick="return confirm('Delete it ?')"
+			   class="btn btn-light">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-left:-10px;margin-top:-15px"
+					 fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+					<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+					<path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+				</svg>
+			</a>
+			<br>
+			<a style="height:25px;width:25px"
+			   onclick="showInPopup('@Url.Action("Upload", "Upload",
+						new
+						{
+							StartDate = ViewBag.StartDate,
+							EndDate = ViewBag.EndDate,
+							page = ViewBag.page,
+							searchpic = ViewBag.searchpic,
+							searchstatus = ViewBag.searchstatus,
+							searchproject = ViewBag.searchproject,
+							taskname = Model.Task[j].name,
+							authorized = "1"
+						},
+						Context.Request.Scheme)','Upload & Download Document');"
+			   class="btn btn-light">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-left:-10px;margin-top:-15px"
+					 fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
+					<path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
+				</svg>
+			</a>
+			@if (UserManager.GetUserName(User) == "superuser@nok.com")
+			{
+				<a style="height:25px;width:25px"
+				   asp-controller="Shared"
+				   asp-action="Email"
+				   asp-route-confirm="true"
+				   asp-route-Id="@Model.Task[j].Id"
+				   asp-route-StartDate="@ViewBag.StartDate"
+				   asp-route-EndDate="@ViewBag.EndDate"
+				   asp-route-page="@ViewBag.page"
+				   asp-route-searchpic="@ViewBag.searchpic"
+				   asp-route-searchstatus="@ViewBag.searchstatus"
+				   asp-route-searchproject="@ViewBag.searchproject"
+				   asp-route-duedate="@Model.Task[j].duedate"
+				   asp-route-taskname="@Model.Task[j].name"
+				   asp-route-email="@Model.Task[j].email"
+				   asp-route-pic="@Model.Task[j].pic"
+				   asp-route-Controllerx="Home"
+				   onclick="return confirm('Send Email ?')"
+				   class="btn btn-light">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-left:-10px;margin-top:-15px" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+						<path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z" />
+					</svg>
+
+				</a>
+			}
+
+		</td>
+		}
+		else
+		{
+	<td class="locked_left">
+
+		<a style="height:25px;width:25px"
+		   onclick="showInPopup('@Url.Action("Upload", "Upload",
+						new
+						{
+							StartDate = ViewBag.StartDate,
+							EndDate = ViewBag.EndDate,
+							page = ViewBag.page,
+							taskname = Model.Task[j].name,
+							authorized = "0"
+						},
+						Context.Request.Scheme)','Upload & Download Document');"
+		   class="btn btn-light">
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-left:-10px;margin-top:-15px"
+				 fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
+				<path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
+			</svg>
+		</a>
+	</td>
+		}
+		@{
+            var today_0 = Int32.Parse(DateTime.Now.AddDays(0).ToString("yyyyMMdd"));
+            if (Model.Task[j].status == ViewBag.finalProcess)
+            {
+				<td class="locked_left" style="background:#615f5f;color:white">
+					<a style="color:white" href="#">
+						@Model.Task[j].name
+					</a><br>
+
+					@{
+                        var d = Model.Task[j].duedate;
+
+                        if (d.ToString().Contains("_") == true)
+                        {
+                            d = d.ToString().Split('_', StringSplitOptions.RemoveEmptyEntries);
+                            for (int k = 0; k < d.Length - 1; k++)
+                            {
+								<font style="color:white">@d[k] </font><br>
+                            }
+							<font style="color:lightcoral">@d[d.Length - 1] </font>
+
+                        }
+                        else
+                        {
+							<font style="color:lightcoral">@Model.Task[j].duedate</font>
+                        }
+
+                     }
+				</td>
+            }
+            else if (
+                    today_0 >= Int32.Parse(Model.Task[j].duedate2.ToString()) &&
+                    Model.Task[j].status != ViewBag.finalProcess
+                )
+            {
+				<td class="locked_left">
+					<div class="delay">
+						<a href="#">@Model.Task[j].name</a><br>
+						@{
+							var d = Model.Task[j].duedate;
+
+							if (d.ToString().Contains("_") == true)
+							{
+								d = d.ToString().Split('_', StringSplitOptions.RemoveEmptyEntries);
+								for (int k = 0; k < d.Length - 1; k++)
+								{
+									<font style="color:black">@d[k] </font><br>
+								}
+								<font style="color:blue">@d[d.Length - 1] </font>
+
+							}
+							else
+							{
+								<font style="color:blue">@Model.Task[j].duedate</font>
+							}
+
+						}
+					</div>
+				</td>
+            }
+            else
+            {
+				<td  class="locked_left">
+					<a href="#">@Model.Task[j].name</a><br>
+					@{
+                        var d = Model.Task[j].duedate;
+
+                        if (d.ToString().Contains("_") == true)
+                        {
+                            d = d.ToString().Split('_', StringSplitOptions.RemoveEmptyEntries);
+                            for (int k = 0; k < d.Length - 1; k++)
+                            {
+								<font style="color:black">@d[k] </font><br>
+                            }
+							<font style="color:red">@d[d.Length - 1] </font>
+
+                        }
+                        else
+                        {
+							<font style="color:red">@Model.Task[j].duedate</font>
+                        }
+
+                     }
+
+                </td>
+			}
+		}
+
+		<td  class="locked_left" style="text-align:center;font-size:13px">
+			@Model.Task[j].pic<br>
+			(<font style="color:red">@Model.Task[j].spec</font>)
+		</td>
+
+		<td  class="locked_left" style="display:none">
+			@Model.Task[j].duedate
+		</td>
+		<td  class="locked_left" >
+			<textarea rows="3" class="remark">@Model.Task[j].remark</textarea>
+		</td>
+		<td style="display:none">
+			@Model.Task[j].Id
+		</td>
+		<td style="display:none">
+			@Model.Task[j].spec
+		</td>
+		<td style="display:none">
+			@Model.Task[j].email
+		</td>
+		@for (var i = 0; i <= ViewBag.nDay; i++)
+		{
+
+			var culture = new System.Globalization.CultureInfo("ja");
+
+			char[] sp = { '-' };
+			var sdate = ViewBag.StartDate.Split(sp, StringSplitOptions.RemoveEmptyEntries);
+
+			DateTime startdate = Convert.ToDateTime(sdate[2] + "/" + sdate[1] + "/" + sdate[0] + " 12:10:15 PM", culture);
+
+			DayOfWeek day = startdate.AddDays(i).DayOfWeek;
+
+			var today_ = DateTime.Now.AddDays(0).ToString("yyyy/MM/dd");
+			var date_ = startdate.AddDays(i).ToString("yyy/MM/dd");
+
+			switch (day.ToString())
+			{
+				case "Saturday":
+					<td style="background-color:#e8e4ca; cursor:pointer">
+						@foreach (var process in Model.Process)
+						{
+							if (
+								process.process_td_tms_id == Model.Task[j].Id.ToString() &&
+								process.process_date == startdate.AddDays(i).ToString("yyyyMMdd")
+							)
+							{
+								<div class='process'><li style="background-color:@process.process_colour">@process.process_content</li></div>
+							}
+						}
+						@if (
+						startdate.AddDays(i).ToString("yyyyMMdd") == Model.Task[j].duedate2.ToString()
+					)
+						{
+							<div class="process"><li style="background-color:red;color:yellow">Due Date</div>
+						}
+					</td>
+					break;
+				case "Sunday":
+					<td style="background-color:#d8d7d3; cursor:pointer">
+						@foreach (var process in Model.Process)
+						{
+							if (
+								process.process_td_tms_id == Model.Task[j].Id.ToString() &&
+								process.process_date == startdate.AddDays(i).ToString("yyyyMMdd")
+							)
+							{
+								<div class='process'><li style="background-color:@process.process_colour">@process.process_content</li></div>
+							}
+
+						}
+						@if (
+						 startdate.AddDays(i).ToString("yyyyMMdd") == Model.Task[j].duedate2.ToString()
+					 )
+						{
+							<div class="process"><li style="background-color:red;color:yellow">Due Date</div>
+						}
+					</td>
+					break;
+				default:
+					if (today_ == date_)
+					{
+						<td style="border-left:2px solid red;border-right:2px solid red;cursor:pointer">
+							@foreach (var process in Model.Process)
+							{
+								if (
+									process.process_td_tms_id == Model.Task[j].Id.ToString() &&
+									process.process_date == startdate.AddDays(i).ToString("yyyyMMdd")
+								)
+								{
+
+									<div class='process'><li style="background-color:@process.process_colour">@process.process_content</li></div>
+								}
+							}
+							@if (
+						startdate.AddDays(i).ToString("yyyyMMdd") == Model.Task[j].duedate2.ToString()
+					)
+							{
+								<div class="process"><li style="background-color:red;color:yellow">Due Date</div>
+							}
+						</td>
+					}
+					else
+					{
+						<td style="cursor:pointer">
+							@foreach (var process in Model.Process)
+							{
+								if (
+									process.process_td_tms_id == Model.Task[j].Id.ToString() &&
+									process.process_date == startdate.AddDays(i).ToString("yyyyMMdd")
+								)
+								{
+									<div class='process'><li style="background-color:@process.process_colour">@process.process_content</li></div>
+								}
+
+
+							}
+							@if (startdate.AddDays(i).ToString("yyyyMMdd") == Model.Task[j].duedate2.ToString())
+							{
+								<div class="process"><li style="background-color:red;color:yellow">Due Date</div>
+							}
+						</td>
+					}
+
+					break;
+			}
+
+		}
+	</tr>
+				}
+
+			}
+		}
+		@if (Model.Task.Count > 5)
+		{
+			<tr>
+				<th></th>
+				<th>
+					TASK
+				</th>
+				<th>
+					PIC
+				</th>
+				<th style="display:none">
+					DueDate
+				</th>
+				<th style='width:150px;border-right:2px solid black'>
+					Remark
+				</th>
+				<th style='display:none'>ID</th>
+				<th style='display:none'>spec</th>
+				<th style='display:none'>email</th>
+
+				@for (var i = 0; i <= ViewBag.nDay; i++)
+				{
+					var culture = new System.Globalization.CultureInfo("ja");
+					try
+					{
+						char[] sp = { '-' };
+						var sdate = ViewBag.StartDate.Split(sp, StringSplitOptions.RemoveEmptyEntries);
+
+						DateTime startdate = Convert.ToDateTime(sdate[2] + "/" + sdate[1] + "/" + sdate[0] + " 12:10:15 PM", culture);
+
+						DayOfWeek day = startdate.AddDays(i).DayOfWeek;
+
+						var today_ = DateTime.Now.AddDays(0).ToString("yyyy/MM/dd");
+						var date_ = startdate.AddDays(i).ToString("yyy/MM/dd");
+
+						var color = "white";
+
+						switch (day.ToString())
+						{
+							case "Saturday":
+								color = "#e8e4ca";
+								break;
+							case "Sunday":
+								color = "#d8d7d3";
+								break;
+						}
+						if (date_ == today_)
+						{
+							<th style="border-top:2px solid red;border-left:2px solid red;border-right:2px solid red;background-color:@color">@startdate.AddDays(i).ToString("dd-MM")</th>
+						}
+						else
+						{
+							<th style="background-color:@color">@startdate.AddDays(i).ToString("dd-MM")</th>
+						}
+
+					}
+					catch (Exception e) { }
+				}
+			</tr>
+		}
+		</table>
+</div>
+
+
+
+
+
+
+

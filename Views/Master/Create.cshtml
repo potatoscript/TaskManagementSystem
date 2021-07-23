@@ -1,0 +1,53 @@
+﻿@model TaskManagement.Models.Master
+
+
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = null;
+
+}
+
+    <form asp-action="Create" onsubmit="return jQueryAjaxPost(this,'Master');" autocomplete="off">
+
+        <input style="display:none" name="StartDate" value=@ViewBag.StartDate />
+        <input style="display:none" name="EndDate" value=@ViewBag.EndDate />
+        <input style="display:none" name="page" value=@ViewBag.page />
+        <input style="display:none" name="searchpic" value=@ViewBag.searchpic />
+        <input style="display:none" name="searchstatus" value=@ViewBag.searchstatus />
+        <input style="display:none" name="searchproject" value=@ViewBag.searchproject />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="name" class="control-label"></label>
+            <input asp-for="name" class="form-control" />
+            <span asp-validation-for="name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="colour" class="control-label"></label>
+            <select onchange="this.style.background=this.options[this.selectedIndex].value;" asp-for="colour" class="form-control">
+                <option>Pick Colour</option>
+                @{
+                    foreach (var i in (List<SelectListItem>)ViewData["Color"])
+                    {
+
+                        <option style="background-color:@i.Value" value="@i.Value">@i.Text</option>
+
+                    }
+                }
+            </select>
+            <span asp-validation-for="colour" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="spec" class="control-label"></label>
+            <input asp-for="spec" class="form-control" />
+            <span asp-validation-for="spec" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+
+    </form>
+
+

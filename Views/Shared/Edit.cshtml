@@ -1,0 +1,105 @@
+﻿@model TaskManagement.Models.DataModel
+
+@if (TempData["alert"] != null)
+{
+    <script>alert("@TempData["alert"]");</script>
+}
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = null;
+
+}
+
+<form method="post" asp-action="Edit" onsubmit="return jQueryAjaxPost(this);">
+    <div class="border p-3">
+
+
+        <div class="form-group" row>
+            <h2 class="text-info pl-3">Edit Task</h2>
+            <input style="display:none" name="StartDate" value=@ViewBag.StartDate />
+            <input style="display:none" name="EndDate" value=@ViewBag.EndDate />
+            <input style="display:none" name="page" value=@ViewBag.page />
+            <input style="display:none" name="email" value=@ViewBag.email />
+            <input style="display:none" name="Controllerx" value=@ViewBag.Controllerx />
+            <input style="display:none" name="taskname" value=@ViewBag.taskname />
+            <input style="display:none" name="td_tms_id" value=@ViewBag.td_tms_id />
+            <input style="display:none" name="searchpic" value=@ViewBag.searchpic />
+            <input style="display:none" name="searchstatus" value=@ViewBag.searchstatus />
+            <input style="display:none" name="searchproject" value=@ViewBag.searchproject />
+        </div>
+
+        <div class="row">
+            <div class="col-8">
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="name"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="name" value="@TempData["name"]" class="form-control" />
+                        <span asp-validation-for="name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="pic"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="pic" value="@TempData["pic"]" class="form-control" autocomplete="off" />
+                        <span asp-validation-for="pic" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="spec"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="spec" value="@TempData["spec"]" class="form-control" autocomplete="off" />
+                        <span asp-validation-for="spec" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="duedate"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="duedate" value="@TempData["duedate"]" class="form-control" autocomplete="off" />
+                        <span asp-validation-for="duedate" class="text-danger"></span>
+                    </div>
+                    <div style="display:none" class="col-8">
+                        <input asp-for="duedate2" value="@TempData["duedate2"]" class="form-control" autocomplete="off" />
+                        <span asp-validation-for="duedate2" class="text-danger"></span>
+                    </div>
+                </div>
+                @*
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="registerdate"></label>
+                        </div>
+                        <div class="col-8">
+                            <input asp-for="registerdate" value="@TempData["startdate"]" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="registerdate" class="text-danger"></span>
+                        </div>
+                    </div>
+                *@
+                <div style="display:none" class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="remark"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="remark" value="@TempData["remark"]" class="form-control" autocomplete="off" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-8 offset-4 row">
+                        <div class="col">
+                            <input type="submit" class="btn btn-info w-180" value="Update" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</form>

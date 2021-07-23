@@ -1,0 +1,129 @@
+﻿@*model TaskManagement.Models.Master*@
+@model IEnumerable<TaskManagement.Models.Master>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <form asp-action="ReloadTable">
+        <input style="display:none" name="startdate" value=@ViewBag.StartDate />
+        <input style="display:none" name="enddate" value=@ViewBag.EndDate />
+        <input style="display:none" name="page" value=@ViewBag.page />
+        <input style="display:none" name="searchpic" value=@ViewBag.searchpic />
+        <input style="display:none" name="searchstatus" value=@ViewBag.searchstatus />
+        <input style="display:none" name="searchproject" value=@ViewBag.searchproject />
+        <div class="col-md-5">
+            <table>
+                <tr>
+                    <th>
+                        <p style="cursor:pointer"
+                           onclick="showInPopup('@Url.Action("Create","Master",
+                                                new{
+                                                    StartDate=ViewBag.StartDate,
+                                                    EndDate=ViewBag.EndDate,
+                                                    page=ViewBag.page,
+                                                    searchpic=ViewBag.searchpic,
+                                                    searchstatus=ViewBag.searchstatus
+                                                },
+                                                Context.Request.Scheme)','Create New');"
+                           class="btn btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" style="margin-left:-10px;margin-top:-8px"
+                                 fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                            </svg> &nbsp;Create New
+                        </p>
+                    </th>
+
+                </tr>
+            </table>
+        </div>
+    </form>
+
+
+    <div id="div_data">
+        <table id="table_data">
+            <tr>
+                <th></th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Colour
+                </th>
+                <th>
+                    Group
+                </th>
+                <th style="display:none">ID</th>
+            </tr>
+
+            @if (Model.Count() > 0)
+            {
+                @foreach (var item in Model)
+                {
+                    if (item.name != null)
+                    {
+                        <tr>
+
+                            <td>
+                                <a style="height:25px;width:25px"
+                                   onclick="showInPopup(
+                                    '@Url.Action("Edit","Master",
+                                    new{
+                                        id = item.Id,
+                                        StartDate = ViewBag.StartDate,
+                                        EndDate = ViewBag.EndDate,
+                                        page = ViewBag.page,
+                                        searchpic = ViewBag.searchpic,
+                                        searchstatus = ViewBag.searchstatus
+                                    },Context.Request.Scheme)', 'Edit');"
+                                   class="btn btn-light">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-left:-10px;margin-top:-15px"
+                                         fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                    </svg>
+                                </a>
+
+                                <a style="height:25px;width:25px;" 　
+                                   asp-controller="Master"
+                                   asp-action="Delete"
+                                   asp-route-Id="@item.Id"
+                                   asp-route-StartDate="@ViewBag.StartDate"
+                                   asp-route-EndDate="@ViewBag.EndDate"
+                                   asp-route-page="@ViewBag.page"
+                                   asp-route-searchpic="@ViewBag.searchpic"
+                                   asp-route-searchstatus="@ViewBag.searchstatus"
+                                   asp-route-confirm="true"
+                                   onclick="return confirm('Delete it ?')"
+                                   class="btn btn-light">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-left:-10px;margin-top:-15px"
+                                         fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                    </svg>
+                                </a>
+                            </td>
+
+                            <td>
+                                <a href="#">@item.name</a>
+                            </td>
+                            <td style="background-color:@item.colour">
+                                @item.colour
+                            </td>
+                            <td>
+                                @item.spec
+                            </td>
+                            <td style="display:none">
+                                @item.Id
+                            </td>
+                        </tr>
+                    }
+
+                }
+             }
+            </table>
+    </div>
+
+
+

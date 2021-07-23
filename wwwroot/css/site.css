@@ -1,0 +1,470 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+
+@-webkit-keyframes delay {
+    from {
+        background-color: red;
+    }
+
+    to {
+        background-color: inherit;
+    }
+}
+
+@-moz-keyframes delay {
+    from {
+        background-color: red;
+    }
+
+    to {
+        background-color: inherit;
+    }
+}
+
+@-o-keyframes delay {
+    from {
+        background-color: red;
+    }
+
+    to {
+        background-color: inherit;
+    }
+}
+
+@keyframes delay {
+    from {
+        background-color: red;
+    }
+
+    to {
+        background-color: inherit;
+    }
+}
+
+.delay {
+    -webkit-animation: delay 1s infinite; /* Safari 4+ */
+    -moz-animation: delay 1s infinite; /* Fx 5+ */
+    -o-animation: delay 1s infinite; /* Opera 12+ */
+    animation: delay 1s infinite; /* IE 10+ */
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px; /* Vertically center the text there */
+}
+
+table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    max-width: 100%;
+    white-space: nowrap;
+}
+table th {
+    font-size       : 15px;
+    font-weight     : bold;
+    text-align      : center;
+    padding:5px;
+    margin-left:10px;
+    color           : #000000;
+}
+table td {
+    font-size       : 15px;
+    font-weight     : normal;
+    text-align      : center;
+    padding         : 5px;
+    color           : #000000;
+}
+
+
+label,input{
+    text-align:center;
+    font-size:15px;
+}
+
+textarea{
+    white-pace: pre-wrap;
+}
+
+
+.duedate {
+    background-color:red;
+    color:yellow;
+    border-radius:5px;
+    border:2px solid black;
+    padding:3px;
+}
+
+
+.locked_top {
+    width: 100px;
+}
+
+.process {
+    border: 0px solid black;
+    background: transparent;
+}
+    .process li {
+        padding: 2px;
+        margin:3px;
+        border: 1px solid black;
+        border-radius: 3px;
+        list-style-type:none;
+    }
+
+
+#DataForm{
+    margin-left:10px;
+}
+
+#div_data {
+    overflow: auto;
+    background: #f9f9f9;
+    border: 1px solid black;
+    margin-left: -10px;
+}
+
+
+#div_file {
+    overflow: auto;
+    border: 1px solid black;
+    border-radius:5px;
+    height:300px;
+}
+
+#div_process, #div_process_item, #div_process_delete {
+    display: none;
+    background: transparent;
+    z-index: 10;
+}
+#div_process {
+    display: none;
+    border: 0px solid black;
+    background: transparent;
+    width: 150px;
+    height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: absolute;
+    
+}
+
+#div_searchpic,#div_searchstatus {
+    display: none;
+    border: 0px solid black;
+    background: transparent;
+    width: 150px;
+    height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: absolute;
+    z-index:300;
+}
+
+#searchproject {
+    font-size:15px;
+    height: 40px;
+    width: 110px;
+    border: 1px solid black;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    background: #e3efff;
+    cursor: pointer;
+    margin-left: 5px;
+}
+#searchproject:hover {
+    background: #f7f091;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+}
+#searchpic, #searchstatus, #thisyear {
+    font-size: 15px;
+    height: 40px;
+    width: 110px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background: #bedaff;
+    cursor: pointer;
+    margin-left: 5px;
+}
+#searchpic:hover, #searchstatus:hover, #thisyear:hover {
+    background: #f7f091;
+    border-radius: 10px;
+}
+
+#startdate,#enddate{
+    width:110px;
+    font-size:15px;
+}
+
+#table_data{
+    table-layout:fixed;
+}
+    #table_data th {
+        overflow-wrap: break-word;
+        border: 1px solid black;
+        border-bottom: 2px solid black;
+    }
+#table_data td{
+   
+    border:1px solid black;
+}
+#table_data tr:nth-child(odd) td {
+    background: #d1ffd4;
+}
+    #table_data tr td:nth-child(1),
+    #table_data tr td:nth-child(2),
+    #table_data tr td:nth-child(3),
+    #table_data tr td:nth-child(4),
+    #table_data tr td:nth-child(5) 
+    {
+        background: #e7e7e7;
+    }
+    #table_data tr td:nth-child(5) {
+        border-right:2px solid black;
+    }
+#table_data tr:nth-child(even) td {
+    background: white;
+}
+/* hover whole row*/
+#table_data tr:hover td {
+    background: #f7f091;
+}
+
+    #table_data th.locked_left {
+        left: 0px;
+        background: white;
+        border: 1px solid black;
+        position: relative;
+        z-index: 1;
+    }
+    #table_data td.locked_left {
+        left: 0px;
+        border: 1px solid black;
+        position: relative;
+        z-index:1;
+    }
+
+
+#table_proces, #table_process_delete {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+#table_process th {
+    border: 1px solid black;
+    background: white;
+    font-size: 10px;
+    font-weight:bold;
+    height:5px;
+    background-color:#dcddde;
+}
+#table_process tr th:nth-child(4) {
+    cursor: pointer;
+}
+#table_process td{
+    border:1px solid black;
+    background:white;
+    font-size:15px;
+}
+#table_process tr:nth-child(odd) td {
+    background: #adbae6;
+}
+/* hover whole row*/
+#table_process tr:hover td {
+    background: #f7f091;
+    cursor:pointer;
+}
+#table_process tr td:nth-child(2) {
+    border-right: 0px hidden;
+}
+#table_process tr td:nth-child(3) {
+    border-right: 0px hidden;
+}
+
+#table_process_delete th {
+    border: 1px solid black;
+    font-size: 10px;
+    font-weight: bold;
+    height: 5px;
+    background-color: #ffc2c2;
+}
+
+#table_process_delete tr th:nth-child(2) {
+    cursor: pointer;
+}
+
+#table_process_delete td {
+    border: 1px solid black;
+    background: white;
+    font-size: 15px;
+    width:110px;
+}
+
+#table_process_delete tr:nth-child(odd) td {
+    background: #e6b4ad;
+}
+/* hover whole row*/
+#table_process_delete tr:hover td {
+    background: #f7f091;
+    cursor: pointer;
+}
+
+#table_process_delete tr td:nth-child(1) {
+    border-right: 0px hidden;
+}
+
+
+
+
+#table_searchpic, #table_searchstatus{
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+#table_searchpic th, #table_searchstatus th {
+    border: 1px solid black;
+    background: white;
+    font-size: 10px;
+    font-weight: bold;
+    height: 5px;
+    background-color: #dcddde;
+}
+
+
+#table_searchpic td, #table_searchstatus td {
+    border: 1px solid black;
+    background: white;
+    font-size: 15px;
+    cursor:pointer;
+}
+
+#table_searchpic tr:nth-child(odd) td, #table_searchstatus tr:nth-child(odd) td {
+    background: #adbae6;
+}
+/* hover whole row*/
+#table_searchpic tr:hover td, #table_searchstatus tr:hover td {
+    background: #f7f091;
+    cursor: pointer;
+}
+
+
+.table_document {
+    background:white;
+    width:99%;
+}
+
+    .table_document th {
+        overflow-wrap: break-word;
+        border: 1px solid black;
+        border-bottom: 2px solid black;
+    }
+
+    .table_document td {
+        border: 1px solid black;
+    }
+
+    .table_document tr:nth-child(odd) td {
+        background: #d1ffd4;
+    }
+
+    .table_document tr:nth-child(even) td {
+        background: white;
+    }
+    /* hover whole row*/
+    .table_document tr:hover td {
+        cursor:pointer;
+        background: #f7f091;
+    }
+
+
+#TotalOverDue {
+    border: 1px solid black;
+    font-size: 18px;
+    width: 70px;
+    height:36px;
+    border-radius: 5px;
+    text-align:center;
+    vertical-align:middle;
+    color:black;
+    font-weight:bold;
+}
+
+
+
+
+
+
+
+

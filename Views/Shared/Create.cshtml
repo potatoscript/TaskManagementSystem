@@ -1,0 +1,149 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using TaskManagement.Areas.Identity.Data
+@model TaskManagement.Models.CreateModel
+@inject UserManager<ApplicationUser> UserManager
+
+@*
+@if (TempData["alert"] != null)
+{
+    <script>alert("@TempData["alert"]");</script>
+}
+*@
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = null;
+
+}
+
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+  
+        <form method="post" asp-action="Create" onsubmit="return jQueryAjaxPost(this);">
+
+
+            <div class="border p-3">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group" row>
+                    <h2 class="text-info pl-3">Add Project</h2>
+                    <input style="display:none" name="StartDate" value=@ViewBag.StartDate />
+                    <input style="display:none" name="EndDate" value=@ViewBag.EndDate />
+                    <input style="display:none" name="page" value=@ViewBag.page />
+                    <input style="display:none" name="searchpic" value=@ViewBag.searchpic />
+                    <input style="display:none" name="searchstatus" value=@ViewBag.searchstatus />
+                    <input style="display:none" name="searchproject" value=@ViewBag.searchproject />
+                    <input style="display:none" name="td_tms_id" value=@ViewBag.td_tms_id />
+                    <input style="display:none" name="taskname" value=@ViewBag.taskname />
+                    <input style="display:none" name="Controllerx" value=@ViewBag.Controllerx />
+                </div>
+
+                <div class="row">
+                    <div class="col-8">
+                        <div class="form-group row">
+                            <div class="col-4">
+                                <label asp-for="name"></label>
+                            </div>
+                            <div class="col-8">
+                                <input asp-for="name" class="form-control" value="-" />
+                                <span asp-validation-for="name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-4">
+                                <label asp-for="pic"></label>
+                            </div>
+                            <div class="col-8">
+
+                                @if (UserManager.GetUserName(User) == "superuser@nok.com")
+                                {
+                                    <select asp-for="pic" onchange="
+                                var v = String(this.options[this.selectedIndex].value).split('#');
+                                document.getElementById('email').value = v[0];
+                                document.getElementById('spec').value = v[1];
+                                document.getElementById('pic2').value = v[2];
+                                " class="form-control">
+                                        <option>PIC</option>
+                                        @{
+                                            foreach (var i in (List<SelectListItem>)ViewData["Email"])
+                                            {
+
+                                                <option value="@i.Value">@i.Text</option>
+
+                                            }
+                                        }
+                                    </select>
+                                }
+                                else
+                                {
+                                    <input asp-for="pic" value="@ViewBag.username" class="form-control" autocomplete="off" />
+
+                                }
+
+                                <!--To get the PIC Text than its Value because its Value cotain Email and Spec from the Select Option-->
+                                <input style="display:none" asp-for="pic2" value="@ViewBag.username" class="form-control" autocomplete="off" />
+
+
+
+                                <span asp-validation-for="pic" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-4">
+                                <label asp-for="spec"></label>
+                            </div>
+                            <div class="col-8">
+                                <input asp-for="spec" value="@ViewBag.userspec" class="form-control" autocomplete="off" />
+                                <span asp-validation-for="spec" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div style="display:none" class="form-group row">
+                            <div class="col-4">
+                                <label asp-for="email"></label>
+                            </div>
+                            <div class="col-8">
+                                <input asp-for="email" class="form-control" value="@UserManager.GetUserName(User)" autocomplete="off" />
+                                <span asp-validation-for="email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div style="display:none" class="form-group row">
+                            <div class="col-4">
+                                <label asp-for="registerdate"></label>
+                            </div>
+                            <div class="col-8">
+                                <input asp-for="registerdate" value="@DateTime.Now.AddDays(0).ToString("dd-MM-yyyy")" class="form-control" autocomplete="off" />
+
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-4">
+                                <label asp-for="duedate"></label>
+                            </div>
+                            <div class="col-8">
+                                <input asp-for="duedate" value="@DateTime.Now.AddDays(0).ToString("dd-MM-yyyy")" class="form-control" autocomplete="off" />
+                                <span asp-validation-for="duedate" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div style="display:none" class="form-group row">
+                            <div class="col-4">
+                                <label asp-for="remark"></label>
+                            </div>
+                            <div class="col-8">
+                                <input asp-for="remark" class="form-control" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-8 offset-4 row">
+                                <div class="col">
+                                    <input type="submit" class="btn btn-info w-180" value="Create" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </form>

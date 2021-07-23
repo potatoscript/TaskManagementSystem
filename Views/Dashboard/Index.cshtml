@@ -1,0 +1,250 @@
+﻿@model List<DataModel>
+@{
+    var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.pic).ToList());
+    var YLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.status).ToList());
+    var YLabels_Done = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.status_done).ToList());
+
+    /*
+    var startdate = ViewBag.StartDate;
+    var enddate = ViewBag.EndDate;
+    var page = ViewBag.page;
+    var searchstatus = ViewBag.searchstatus;
+    var searchproject = ViewBag.searchproject;
+    */
+
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table>
+    <tr>
+        <td><h1>Dashboard</h1></td>
+        <td><input style="text" class="form-control" id="thisyear" value="@ViewBag.thisyear" /></td>
+    </tr>
+</table>
+
+
+<input style="display:none" id="startdate" value=@ViewBag.StartDate />
+<input style="display:none" id="enddate" value=@ViewBag.EndDate />
+<input style="display:none" id="page" value=@ViewBag.page />
+<input style="display:none" id="searchpic" value=@ViewBag.searchpic />
+<input style="display:none" id="searchstatus" value=@ViewBag.searchstatus />
+<input style="display:none" id="searchproject" value=@ViewBag.searchproject />
+
+
+
+<div class="chart-container">
+    <canvas id="tmsBarChart" style="width:100%;height:350px">Loading...</canvas>
+</div>
+
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+
+
+        jQuery("#thisyear").keyup(function () {
+                if (this.value.length == 4) {
+                    window.location.href = _url +
+                        "Dashboard/index" +
+                        "?StartDate=" + document.getElementById("startdate").value +
+                        "&EndDate=" + document.getElementById("enddate").value +
+                        "&searchpic=" + document.getElementById("searchpic").value +
+                        "&searchstatus=" + document.getElementById("searchstatus").value +
+                        "&searchproject=" + document.getElementById("searchproject").value +
+                        "&page=" + document.getElementById("page").value +
+                        "&thisyear=" + document.getElementById("thisyear").value
+                }
+            })
+
+
+        // to enable the chartArea setting
+        Chart.pluginService.register({
+            beforeDraw: function (chart, easing) {
+                if (chart.config.options.chartArea && chart.config.options.chartArea.backgroundColor) {
+                    var helpers = Chart.helpers;
+                    var ctx = chart.chart.ctx;
+                    var chartArea = chart.chartArea;
+                    ctx.save();
+                    ctx.fillStyle = chart.config.options.chartArea.backgroundColor;
+                    ctx.fillRect(chartArea.left, chartArea.top, chartArea.right - chartArea.left, chartArea.bottom - chartArea.top);
+                    ctx.restore();
+                }
+            }
+        });
+
+
+    var ctx = document.getElementById('tmsBarChart').getContext('2d');
+            var barChartData = {
+                labels: @Html.Raw(XLabels),
+                datasets: [
+                    {
+                        label: 'Completed',
+                        yAxisID: 'y-axis-1',
+                        type: 'bar',
+                        backgroundColor:"grey",
+                        borderColor: "black",
+                        borderWidth: 1,
+                        fill: true,
+                        data: @Html.Raw(YLabels_Done),
+                    },
+                    {
+                        label: 'In progress',
+                        yAxisID: 'y-axis-1',
+                        type: 'bar',
+                        backgroundColor:"lightgreen",
+                        borderColor: "black",
+                        borderWidth: 1,
+                        fill: true,
+                        data: @Html.Raw(YLabels),
+                    },
+
+                ]
+
+            };
+
+            var myBar = new Chart(ctx, {
+                type: 'bar',
+                data: barChartData,
+
+                options: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+
+                            fontColor: '#333',
+                            boxWidth: 9,
+                            fontColor: 'black',
+                            fontFamily: '6px Montserrat',
+                            usePointStyle: true,
+
+                        }
+                    },
+                    hover: {
+                        onHover: function (e) {
+                            var point = this.getElementAtEvent(e);
+                            if (point.length) e.target.style.cursor = "pointer";
+                            else e.target.style.cursor = "default";
+                        }
+                    },
+                    onClick: function (evt, item) {
+                        loadHomePage(
+                            document.getElementById("startdate").value,
+                            document.getElementById("enddate").value,
+                            document.getElementById("page").value,
+                            this.data.labels[item[0]._index],
+                            "All_Status",
+                            document.getElementById("searchproject").value
+                        );
+
+                    },
+                    skipNull: true,
+                    title: {
+                        display: true,
+                        fontSize: 25,
+                        text: 'Total Tasks of Year ' + document.getElementById("thisyear").value
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false,
+                        /*
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                return tooltipItem.yLabel;
+                            }
+                        }
+                        */
+                    },
+                    //responsive: true,
+                    scales: {
+                        offset: true,
+                        x: {
+                            gridLines: {
+                                offsetGridLines: true
+                            }
+                        },
+                        xAxes: [{
+                            stacked: true,
+                            ticks: {
+                                autoSkip: true,
+                                fontSize: 15,
+                                maxRotation: 45,
+                                minRotation:45
+                            },
+
+                        }],
+                        yAxes: [
+                            {
+                                stacked: true,
+                                display: true,
+                                position: 'left',
+                                id: 'y-axis-1',
+                                ticks: {
+                                    beginAtZero: false,
+                                    min: 0,
+                                    stepSize: 5,
+                                    fontSize: 15,
+                                    autoSkip: true,
+                                    callback: function (value, index, values) {
+                                        return value ;
+                                    }
+                                }
+                            },
+                            {
+                                //stacked: false,
+                                display: true,
+                                position: 'right',
+                                id: 'y-axis-2',
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'unit'
+                                },
+                                ticks: {
+                                    beginAtZero: false,
+                                    fontSize: 15,
+                                    min: -50,
+                                    max: 50,
+                                    stepSize: 10,
+                                    autoSkip: true,
+                                    /* Include a dollar sign in the ticks
+                                    callback: function (value, index, values) {
+                                        return '$' + value;
+                                    }
+                                    */
+
+                                }
+                            }
+                        ],
+                    },
+                    ///to set the css of the font of the label
+
+                    plugins: { ////by adding the plugin chartjs-plugin-labels.js
+                        labels: {
+                            render: function (args) {
+                                // skip the zero label
+                                var val = parseFloat(args.value);
+                                if (val < 1) return "";
+
+                                return parseFloat(args.value).toFixed(0);
+                            },
+                            arc: true,
+                            fontSize: 15,
+                            fontColor: 'black',
+                            position: 'outside',
+
+                        },
+
+                    },
+
+                    responsive: false,
+                    chartArea: {
+                        backgroundColor: 'White'
+                    }
+                },
+
+
+
+            });
+
+    })
+</script>
