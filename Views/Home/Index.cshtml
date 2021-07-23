@@ -14,7 +14,16 @@
 
 <p style="display:none" id="finalProcess">@ViewBag.finalProcess</p>
 
-<form id="DataForm" asp-action="ReloadTable">
+<form id="DataForm" 
+	  asp-action="ReloadTable"
+	  asp-route-StartDate="@ViewBag.StartDate"
+	asp-route-EndDate="@ViewBag.EndDate"
+	asp-route-page="@ViewBag.page"
+	asp-route-searchpic="@ViewBag.searchpic"
+	asp-route-searchstatus="@ViewBag.searchstatus"
+	asp-route-searchproject="@ViewBag.searchproject"
+	asp-route-Controllerx="Home"
+	  >
 	<div>
 		<table >
 			<tr>

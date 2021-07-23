@@ -215,7 +215,7 @@ function setWindow() {
     var x = document.getElementsByClassName('div_data');
     for (var i = 0; i < x.length; i++) {
         x[i].style.width = (window.innerWidth - 30) + 'px';
-        x[i].style.height = (window.innerHeight - 150) + 'px';
+        x[i].style.height = (window.innerHeight - 110) + 'px';
     }
 
 }
