@@ -74,7 +74,13 @@
 						for (var j = 0; j < totalpage; j++)
 						{
 							<th>
-								<input type="button" onclick="loadHomePage('@ViewBag.StartDate','@ViewBag.EndDate',@k,'@ViewBag.searchpic','@ViewBag.searchstatus' )" value="@k " class="btn btn-info" />
+								<input type="button" onclick=
+									   "loadHomePage('@ViewBag.StartDate',
+													'@ViewBag.EndDate',@k,
+													'@ViewBag.searchpic',
+													'@ViewBag.searchstatus',
+													'@ViewBag.searchproject')" 
+									   value="@k " class="btn btn-info" />
 							</th>
 							k++;
 						}
@@ -203,12 +209,13 @@
 	<tr>
 		@if (
 Model.Task[j].email == UserManager.GetUserName(User) ||
+Model.Task[j].email2 == UserManager.GetUserName(User) ||
 UserManager.GetUserName(User) == "superuser@nok.com"
 )
 		{
-		<td class="locked_left">
-			<a style="height:25px;width:25px"
-			   onclick="showInPopup('@Url.Action("Edit", "Shared",
+			<td class="locked_left">
+				<a style="height:25px;width:25px"
+				   onclick="showInPopup('@Url.Action("Edit", "Shared",
 						new
 						{
 							id = Model.Task[j].Id,
@@ -221,36 +228,36 @@ UserManager.GetUserName(User) == "superuser@nok.com"
 							Controllerx = "Home"
 						},
 						Context.Request.Scheme)','Edit');"
-			   class="btn btn-light">
-				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-left:-10px;margin-top:-15px"
-					 fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-					<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-					<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-				</svg>
-			</a>
-			<a style="height:25px;width:25px;" 　
-			   asp-controller="Shared"
-			   asp-action="Delete"
-			   asp-route-confirm="true"
-			   asp-route-Id="@Model.Task[j].Id"
-			   asp-route-StartDate="@ViewBag.StartDate"
-			   asp-route-EndDate="@ViewBag.EndDate"
-			   asp-route-page="@ViewBag.page"
-			   asp-route-searchpic="@ViewBag.searchpic"
-			   asp-route-searchstatus="@ViewBag.searchstatus"
-			   asp-route-searchproject="@ViewBag.searchproject"
-			   asp-route-Controllerx="Home"
-			   onclick="return confirm('Delete it ?')"
-			   class="btn btn-light">
-				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-left:-10px;margin-top:-15px"
-					 fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-					<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-					<path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-				</svg>
-			</a>
-			<br>
-			<a style="height:25px;width:25px"
-			   onclick="showInPopup('@Url.Action("Upload", "Upload",
+				   class="btn btn-light">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-left:-10px;margin-top:-15px"
+						 fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+						<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+						<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+					</svg>
+				</a>
+				<a style="height:25px;width:25px;" 　
+				   asp-controller="Shared"
+				   asp-action="Delete"
+				   asp-route-confirm="true"
+				   asp-route-Id="@Model.Task[j].Id"
+				   asp-route-StartDate="@ViewBag.StartDate"
+				   asp-route-EndDate="@ViewBag.EndDate"
+				   asp-route-page="@ViewBag.page"
+				   asp-route-searchpic="@ViewBag.searchpic"
+				   asp-route-searchstatus="@ViewBag.searchstatus"
+				   asp-route-searchproject="@ViewBag.searchproject"
+				   asp-route-Controllerx="Home"
+				   onclick="return confirm('Delete it ?')"
+				   class="btn btn-light">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-left:-10px;margin-top:-15px"
+						 fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+						<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+						<path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+					</svg>
+				</a>
+				<br>
+				<a style="height:25px;width:25px"
+				   onclick="showInPopup('@Url.Action("Upload", "Upload",
 						new
 						{
 							StartDate = ViewBag.StartDate,
@@ -263,47 +270,47 @@ UserManager.GetUserName(User) == "superuser@nok.com"
 							authorized = "1"
 						},
 						Context.Request.Scheme)','Upload & Download Document');"
-			   class="btn btn-light">
-				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-left:-10px;margin-top:-15px"
-					 fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
-					<path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
-				</svg>
-			</a>
-			@if (UserManager.GetUserName(User) == "superuser@nok.com")
-			{
-				<a style="height:25px;width:25px"
-				   asp-controller="Shared"
-				   asp-action="Email"
-				   asp-route-confirm="true"
-				   asp-route-Id="@Model.Task[j].Id"
-				   asp-route-StartDate="@ViewBag.StartDate"
-				   asp-route-EndDate="@ViewBag.EndDate"
-				   asp-route-page="@ViewBag.page"
-				   asp-route-searchpic="@ViewBag.searchpic"
-				   asp-route-searchstatus="@ViewBag.searchstatus"
-				   asp-route-searchproject="@ViewBag.searchproject"
-				   asp-route-duedate="@Model.Task[j].duedate"
-				   asp-route-taskname="@Model.Task[j].name"
-				   asp-route-email="@Model.Task[j].email"
-				   asp-route-pic="@Model.Task[j].pic"
-				   asp-route-Controllerx="Home"
-				   onclick="return confirm('Send Email ?')"
 				   class="btn btn-light">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-left:-10px;margin-top:-15px" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
-						<path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z" />
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-left:-10px;margin-top:-15px"
+						 fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
+						<path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
 					</svg>
-
 				</a>
-			}
+				@if (UserManager.GetUserName(User) == "superuser@nok.com")
+				{
+					<a style="height:25px;width:25px"
+					   asp-controller="Shared"
+					   asp-action="Email"
+					   asp-route-confirm="true"
+					   asp-route-Id="@Model.Task[j].Id"
+					   asp-route-StartDate="@ViewBag.StartDate"
+					   asp-route-EndDate="@ViewBag.EndDate"
+					   asp-route-page="@ViewBag.page"
+					   asp-route-searchpic="@ViewBag.searchpic"
+					   asp-route-searchstatus="@ViewBag.searchstatus"
+					   asp-route-searchproject="@ViewBag.searchproject"
+					   asp-route-duedate="@Model.Task[j].duedate"
+					   asp-route-taskname="@Model.Task[j].name"
+					   asp-route-email="@Model.Task[j].email"
+					   asp-route-pic="@Model.Task[j].pic"
+					   asp-route-Controllerx="Home"
+					   onclick="return confirm('Send Email ?')"
+					   class="btn btn-light">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-left:-10px;margin-top:-15px" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+							<path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z" />
+						</svg>
 
-		</td>
+					</a>
+				}
+
+			</td>
 		}
 		else
 		{
-	<td class="locked_left">
+			<td class="locked_left">
 
-		<a style="height:25px;width:25px"
-		   onclick="showInPopup('@Url.Action("Upload", "Upload",
+				<a style="height:25px;width:25px"
+				   onclick="showInPopup('@Url.Action("Upload", "Upload",
 						new
 						{
 							StartDate = ViewBag.StartDate,
@@ -313,49 +320,49 @@ UserManager.GetUserName(User) == "superuser@nok.com"
 							authorized = "0"
 						},
 						Context.Request.Scheme)','Upload & Download Document');"
-		   class="btn btn-light">
-			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-left:-10px;margin-top:-15px"
-				 fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
-				<path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
-			</svg>
-		</a>
-	</td>
+				   class="btn btn-light">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-left:-10px;margin-top:-15px"
+						 fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
+						<path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
+					</svg>
+				</a>
+			</td>
 		}
 		@{
-            var today_0 = Int32.Parse(DateTime.Now.AddDays(0).ToString("yyyyMMdd"));
-            if (Model.Task[j].status == ViewBag.finalProcess)
-            {
+			var today_0 = Int32.Parse(DateTime.Now.AddDays(0).ToString("yyyyMMdd"));
+			if (Model.Task[j].status == ViewBag.finalProcess)
+			{
 				<td class="locked_left" style="background:#615f5f;color:white">
 					<a style="color:white" href="#">
 						@Model.Task[j].name
 					</a><br>
 
 					@{
-                        var d = Model.Task[j].duedate;
+						var d = Model.Task[j].duedate;
 
-                        if (d.ToString().Contains("_") == true)
-                        {
-                            d = d.ToString().Split('_', StringSplitOptions.RemoveEmptyEntries);
-                            for (int k = 0; k < d.Length - 1; k++)
-                            {
+						if (d.ToString().Contains("_") == true)
+						{
+							d = d.ToString().Split('_', StringSplitOptions.RemoveEmptyEntries);
+							for (int k = 0; k < d.Length - 1; k++)
+							{
 								<font style="color:white">@d[k] </font><br>
-                            }
+							}
 							<font style="color:lightcoral">@d[d.Length - 1] </font>
 
-                        }
-                        else
-                        {
+						}
+						else
+						{
 							<font style="color:lightcoral">@Model.Task[j].duedate</font>
-                        }
+						}
 
-                     }
+					}
 				</td>
-            }
-            else if (
-                    today_0 >= Int32.Parse(Model.Task[j].duedate2.ToString()) &&
-                    Model.Task[j].status != ViewBag.finalProcess
-                )
-            {
+			}
+			else if (
+					today_0 >= Int32.Parse(Model.Task[j].duedate2.ToString()) &&
+					Model.Task[j].status != ViewBag.finalProcess
+				)
+			{
 				<td class="locked_left">
 					<div class="delay">
 						<a href="#">@Model.Task[j].name</a><br>
@@ -380,51 +387,69 @@ UserManager.GetUserName(User) == "superuser@nok.com"
 						}
 					</div>
 				</td>
-            }
-            else
-            {
-				<td  class="locked_left">
+			}
+			else
+			{
+				<td class="locked_left">
 					<a href="#">@Model.Task[j].name</a><br>
 					@{
-                        var d = Model.Task[j].duedate;
+						var d = Model.Task[j].duedate;
 
-                        if (d.ToString().Contains("_") == true)
-                        {
-                            d = d.ToString().Split('_', StringSplitOptions.RemoveEmptyEntries);
-                            for (int k = 0; k < d.Length - 1; k++)
-                            {
+						if (d.ToString().Contains("_") == true)
+						{
+							d = d.ToString().Split('_', StringSplitOptions.RemoveEmptyEntries);
+							for (int k = 0; k < d.Length - 1; k++)
+							{
 								<font style="color:black">@d[k] </font><br>
-                            }
+							}
 							<font style="color:red">@d[d.Length - 1] </font>
 
-                        }
-                        else
-                        {
+						}
+						else
+						{
 							<font style="color:red">@Model.Task[j].duedate</font>
-                        }
+						}
 
-                     }
+					}
 
-                </td>
+				</td>
 			}
 		}
 
-		<td  class="locked_left" style="text-align:center;font-size:13px">
+		<td class="locked_left" style="text-align:center;font-size:13px">
 			@Model.Task[j].pic<br>
-			(<font style="color:red">@Model.Task[j].spec</font>)
+			(<font style="color:red">@Model.Task[j].spec</font>)<br>
+			@Model.Task[j].collaborate<br>
+			(<font style="color:red">@Model.Task[j].spec2</font>)
 		</td>
 
-		<td  class="locked_left" style="display:none">
+		<td class="locked_left" style="display:none">
 			@Model.Task[j].duedate
 		</td>
-		<td  class="locked_left" >
-			<textarea rows="3" class="remark">@Model.Task[j].remark</textarea>
-		</td>
+
+
+
+		@if (
+			 Model.Task[j].email == UserManager.GetUserName(User) ||
+			 Model.Task[j].email2 == UserManager.GetUserName(User) ||
+			 UserManager.GetUserName(User) == "superuser@nok.com"
+	   )
+		{
+			<td class="locked_left">
+				<textarea rows="3" class="remark">@Model.Task[j].remark</textarea>
+			</td>
+		}
+		else
+		{
+			<td class="locked_left">
+				<textarea rows="3" >@Model.Task[j].remark</textarea>
+			</td>
+		}
 		<td style="display:none">
 			@Model.Task[j].Id
 		</td>
 		<td style="display:none">
-			@Model.Task[j].spec
+			@Model.Task[j].email2
 		</td>
 		<td style="display:none">
 			@Model.Task[j].email
@@ -459,8 +484,8 @@ UserManager.GetUserName(User) == "superuser@nok.com"
 							}
 						}
 						@if (
-						startdate.AddDays(i).ToString("yyyyMMdd") == Model.Task[j].duedate2.ToString()
-					)
+					  startdate.AddDays(i).ToString("yyyyMMdd") == Model.Task[j].duedate2.ToString()
+				  )
 						{
 							<div class="process"><li style="background-color:red;color:yellow">Due Date</div>
 						}
@@ -480,8 +505,8 @@ UserManager.GetUserName(User) == "superuser@nok.com"
 
 						}
 						@if (
-						 startdate.AddDays(i).ToString("yyyyMMdd") == Model.Task[j].duedate2.ToString()
-					 )
+					   startdate.AddDays(i).ToString("yyyyMMdd") == Model.Task[j].duedate2.ToString()
+				   )
 						{
 							<div class="process"><li style="background-color:red;color:yellow">Due Date</div>
 						}
@@ -503,8 +528,8 @@ UserManager.GetUserName(User) == "superuser@nok.com"
 								}
 							}
 							@if (
-						startdate.AddDays(i).ToString("yyyyMMdd") == Model.Task[j].duedate2.ToString()
-					)
+					  startdate.AddDays(i).ToString("yyyyMMdd") == Model.Task[j].duedate2.ToString()
+				  )
 							{
 								<div class="process"><li style="background-color:red;color:yellow">Due Date</div>
 							}

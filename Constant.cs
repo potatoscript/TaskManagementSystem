@@ -13,6 +13,8 @@ namespace ProjectManagement
     public class Constant
     {
         public string id { get; set; }
+
+        public string collaborate { get; set; }
         public string colour { get; set; }
         public string date { get; set; }
 
@@ -20,12 +22,14 @@ namespace ProjectManagement
         public string duedate { get; set; }
         public string duedate2 { get; set; }
         public string email { get; set; }
+        public string email2 { get; set; }
         public string name { get; set; }
         public string password { get; set; }
         public string pic { get; set; }
         public string project_id { get; set; }
         public string remark { get; set; }
         public string spec { get; set; }
+        public string spec2 { get; set; }
         public string startdate { get; set; }
         public string status { get; set; }
         public string table { get; set; }
@@ -47,12 +51,14 @@ namespace ProjectManagement
         public Constant()
         {
             id = "id";
+            collaborate = "collaborate";
             colour = "colour";
             date = "date";
             doc = "doc";
             duedate = "duedate";
             duedate2 = "duedate2";
             email = "email";
+            email2 = "email2";
             final_process = "Done";
             name = "name";
             password = "password";
@@ -60,6 +66,7 @@ namespace ProjectManagement
             project_id = "project_id";
             remark = "remark";
             spec = "spec";
+            spec2 = "spec2";
             startdate = "startdate";
             status = "status";
 

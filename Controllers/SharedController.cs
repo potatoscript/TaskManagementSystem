@@ -141,7 +141,10 @@ namespace TaskManagement.Controllers
                 if (Controllerx == "Detail") sql += d.td_tms_id + ",";
             sql += d.name + ", " +
                             d.pic + ", " +
+                            d.collaborate + ", " +
+                            d.email2 + ", " +
                             d.spec + ", " +
+                            d.spec2 + ", " +
                             d.email + ", " +
                             d.duedate + ", " +
                             d.startdate + ", " +
@@ -156,7 +159,10 @@ namespace TaskManagement.Controllers
                 if (Controllerx == "Detail") sql +=  "'" + model.td_tms_id + "',";
             sql += "'" + model.name + "'," +
                     "'" + pic2 + "', " +
+                    "'" + model.collaborate + "', " +
+                    "'" + model.email2 + "', " +
                     "'" + model.spec + "', " +
+                    "'" + model.spec2 + "', " +
                     "'" + model.email + "', " +
                     "'" + model.duedate + "', " +
                     "'" + _start + "', " +
@@ -226,7 +232,36 @@ namespace TaskManagement.Controllers
             ViewBag.Controllerx = Controllerx;
 
 
-                Constant d = new Constant();
+            DataModel model = new DataModel();
+
+
+            Constant d = new Constant();
+
+            string sqle = "SELECT " +
+                            d.name + ", " +
+                            d.email + ", " +
+                            d.spec + " ";
+            sqle += " FROM " + d.tableUser;
+            Database dbe = new Database(sqle, _server);
+            if (dbe.data.HasRows)
+            {
+                while (dbe.data.Read())
+                {
+                    model.ListEmail.Add(
+                        new SelectListItem
+                        {
+                            Text = dbe.data[0].ToString().Trim(),
+                            Value = dbe.data[1].ToString().Trim() + "#" + dbe.data[2].ToString().Trim() + "#" + dbe.data[0].ToString().Trim()
+                        }
+                    );
+
+                }
+            }
+            dbe.Close();
+
+            ViewData["Email"] = model.ListEmail;
+
+
                 string sql = "SELECT " +
                                 d.name + ", " +
                                 d.pic + ", " +
@@ -234,7 +269,10 @@ namespace TaskManagement.Controllers
                                 d.email + ", " +
                                 d.duedate + ", " +
                                 d.startdate + ", " +
-                                d.remark + " ";
+                                d.remark + ", " +
+                                d.collaborate + ", " +
+                                d.email2 + ", " +
+                                d.spec2 + " ";
                 if (Controllerx == "Detail")
                 {
                     sql += " FROM " + d.tableDetail + " WHERE " + d.id + "= '" + Id + "' ";
@@ -257,6 +295,9 @@ namespace TaskManagement.Controllers
                         TempData["duedate2"] = db.data[4].ToString().Trim();
                         TempData["startdate"] = db.data[5].ToString().Trim();
                         TempData["remark"] = db.data[6].ToString().Trim();
+                        TempData["collaborate"] = db.data[7].ToString().Trim();
+                        TempData["email2"] = db.data[8].ToString().Trim();
+                        TempData["spec2"] = db.data[9].ToString().Trim();
                     }
                 }
                 db.Close();
@@ -298,7 +339,10 @@ namespace TaskManagement.Controllers
                 sql += " SET( " +
                                     d.name + ", " +
                                     d.pic + ", " +
+                                    d.collaborate + ", " +
+                                    d.email2 + ", " +
                                     d.spec + ", " +
+                                    d.spec2 + ", " +
                                     d.duedate + ", ";
 
                 if (model.duedate != model.duedate2) sql += d.duedate2 + ", ";
@@ -307,7 +351,10 @@ namespace TaskManagement.Controllers
                                    ")=(" +
                                    "'" + model.name + "'," +
                                    "'" + model.pic + "', " +
+                                   "'" + model.collaborate + "', " +
+                                   "'" + model.email2 + "', " +
                                    "'" + model.spec + "', " +
+                                   "'" + model.spec2 + "', " +
                                    "'" + model.duedate + "', ";
 
                 if (model.duedate != model.duedate2) sql += d.duedate2 + "||'_" + model.duedate + "', ";

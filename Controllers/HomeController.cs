@@ -148,7 +148,10 @@ namespace TaskManagement.Controllers
                     d.duedate + "," +
                     d.status + "," +
                     d.remark + ", " +
-                    d.duedate2 + " " +
+                    d.duedate2 + ", " +
+                    d.collaborate + ", " +
+                    d.email2 + ", " +
+                    d.spec2 + " " +
                     " FROM " + d.table;
             sql += " WHERE " + d.id + " != '0' ";
             if (searchstatus == "Over_Due")
@@ -203,6 +206,9 @@ namespace TaskManagement.Controllers
                             duedate = db.data[8].ToString(),
                             status = db.data[6].ToString(),
                             remark = db.data[7].ToString(),
+                            collaborate = db.data[9].ToString(),
+                            email2 = db.data[10].ToString(),
+                            spec2 = db.data[11].ToString(),
                             duedate2 = _due
                         });
 

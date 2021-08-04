@@ -89,6 +89,35 @@
 
                                 <span asp-validation-for="pic" class="text-danger"></span>
                             </div>
+                           
+                         </div>
+                        <div class="form-group row">
+                            <div class="col-4">
+                                <label asp-for="pic3"></label>
+                            </div>
+                            <div class="col-8">
+
+                                <select asp-for="pic3" onchange="
+                                var v = String(this.options[this.selectedIndex].value).split('#');
+                                document.getElementById('email2').value = v[0];
+                                document.getElementById('spec2').value = v[1];
+                                document.getElementById('collaborate').value = v[2];
+                                " class="form-control">
+                                    <option>~Collaborate~</option>
+                                    @{
+                                        foreach (var i in (List<SelectListItem>)ViewData["Email"])
+                                        {
+
+                                            <option value="@i.Value">@i.Text</option>
+
+                                        }
+                                    }
+                                </select>
+                                <input style="color:blue;font-size:13px;border:0px" asp-for="email2" value="-" class="form-control" autocomplete="off" />
+                                <input style="display:none" asp-for="collaborate" value="-" class="form-control" autocomplete="off" />
+                                <input style="display:none" asp-for="spec2" value="-" class="form-control" autocomplete="off" />
+
+                            </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-4">

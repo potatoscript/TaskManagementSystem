@@ -481,8 +481,10 @@ function DataTableOnClick() {
                     "&duedate=" + String(table.rows[ri].cells[3].innerText).trim();
             }
             if (ci > 5 && ri > 1) {
-
+                //set the permission
                 if (
+                    document.getElementById("myemail").value ==
+                    String(table.rows[ri].cells[6].innerText).trim() ||
                     document.getElementById("myemail").value ==
                     String(table.rows[ri].cells[7].innerText).trim() ||
                     document.getElementById("myemail").value == "superuser@nok.com"
@@ -551,7 +553,10 @@ function DataTableOnClick() {
                 var table = document.getElementById('table_data');
                 ci = jQuery(this).parent().children().index(this);
                 ri = jQuery(this).parent().parent().children().index(this.parentNode);
+                //set the permission
                 if (
+                    document.getElementById("myemail").value ==
+                    String(table.rows[ri].cells[6].innerText).trim() ||
                     document.getElementById("myemail").value ==
                     String(table.rows[ri].cells[7].innerText).trim() ||
                     document.getElementById("myemail").value == "superuser@nok.com"

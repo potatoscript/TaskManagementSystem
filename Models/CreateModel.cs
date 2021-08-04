@@ -20,11 +20,18 @@ namespace TaskManagement.Models
         [Required(ErrorMessage = "You need to give Person Incharge")]
         public string pic { get; set; }
         public string pic2 { get; set; } // to get the pic name rather than the email and spec in its value in the select option
-
+        
+        [DisplayName("")]
+        public string pic3 { get; set; }
+        public string collaborate { get; set; }
+        public string spec2 { get; set; }
 
         [DisplayName("Email")]
         [Required(ErrorMessage = "You need email for your Project")]
         public string email { get; set; }
+
+        
+        public string email2 { get; set; }
 
         [DisplayName("Group")]
         [Required(ErrorMessage = "You need Group for your Project")]
