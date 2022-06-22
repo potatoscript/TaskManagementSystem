@@ -7,8 +7,8 @@
 
 
 /************************************************************** */
-//var _url = "/";          //if your app upload outside Default Web site - for my pc
-var _url = "/tmsystem/";  //if your app upload under Default Web site - for company
+var _url = "/";          //if your app upload outside Default Web site - for my pc
+ _url = "/tmsystem/";  //if your app upload under Default Web site - for company
 /********** AND Dont forget to share your DOC folder in the server for the file uploading  ******************** */
 
 
@@ -215,7 +215,7 @@ function setWindow() {
     var x = document.getElementsByClassName('div_data');
     for (var i = 0; i < x.length; i++) {
         x[i].style.width = (window.innerWidth - 30) + 'px';
-        x[i].style.height = (window.innerHeight - 110) + 'px';
+        x[i].style.height = (window.innerHeight - 150) + 'px';
     }
 
 }
@@ -315,7 +315,7 @@ function jQueryAjaxPost(form) {
                     jQuery("#form-modal .modal-body").html("");
                     jQuery("#form-modal .modal-title").html("");
                     jQuery("#form-modal").modal('hide');
-
+                    
                     if (res.controllerx == "Detail")
                         window.location.href = _url + res.controllerx +
                             "/ReloadTable?StartDate=" + res.startdate +

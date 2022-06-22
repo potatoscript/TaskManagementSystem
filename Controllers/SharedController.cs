@@ -67,11 +67,7 @@ namespace TaskManagement.Controllers
 
             Constant d = new Constant();
 
-            string sqle = "SELECT " +
-                            d.name + ", " +
-                            d.email + ", "+
-                            d.spec + " ";
-            sqle += " FROM " + d.tableUser ;
+            string sqle = "SELECT \"Name\", \"UserName\",\"Department\" FROM \"AspNetUsers\"";
             Database dbe = new Database(sqle, _server);
             if (dbe.data.HasRows)
             {
@@ -91,15 +87,15 @@ namespace TaskManagement.Controllers
             ViewData["Email"] = model.ListEmail;
 
             
-            string sql = "SELECT " + d.name + "," + d.spec + " FROM " + d.tableUser +
-                            " WHERE " + d.email + " = '" + UserName + "' ";
+            string sql = "SELECT \"Name\", \"UserName\",\"Department\" FROM \"AspNetUsers\"";
+            sql += " WHERE \"UserName\" = '" + UserName + "' ";
             Database db = new Database(sql, _server);
             if (db.data.HasRows)
             {
                 while (db.data.Read())
                 {
                     ViewBag.username = db.data[0].ToString().Trim();
-                    ViewBag.userspec = db.data[1].ToString().Trim();
+                    ViewBag.userspec = db.data[2].ToString().Trim();
                 }
             }
             db.Close();
@@ -237,11 +233,7 @@ namespace TaskManagement.Controllers
 
             Constant d = new Constant();
 
-            string sqle = "SELECT " +
-                            d.name + ", " +
-                            d.email + ", " +
-                            d.spec + " ";
-            sqle += " FROM " + d.tableUser;
+            string sqle = "SELECT \"Name\", \"UserName\",\"Department\" FROM \"AspNetUsers\"";
             Database dbe = new Database(sqle, _server);
             if (dbe.data.HasRows)
             {
@@ -522,8 +514,6 @@ namespace TaskManagement.Controllers
 
             return View();
         }
-
-
 
         public void EditRemark(int id, String remark, String Controllerx)
         {

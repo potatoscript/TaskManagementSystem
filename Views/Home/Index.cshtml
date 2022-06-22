@@ -334,8 +334,8 @@ UserManager.GetUserName(User) == "superuser@nok.com"
 			{
 				<td class="locked_left" style="background:#615f5f;color:white">
 					<a style="color:white" href="#">
-						@Model.Task[j].name
-					</a><br>
+						@Model.Task[j].name 
+					</a><span>.</span><br>
 
 					@{
 						var d = Model.Task[j].duedate;
@@ -343,10 +343,16 @@ UserManager.GetUserName(User) == "superuser@nok.com"
 						if (d.ToString().Contains("_") == true)
 						{
 							d = d.ToString().Split('_', StringSplitOptions.RemoveEmptyEntries);
+							
+							<font style="color:white">@d[0] </font><br>
+
+							/* if you like to show all the due date history
 							for (int k = 0; k < d.Length - 1; k++)
 							{
 								<font style="color:white">@d[k] </font><br>
 							}
+							*/
+							
 							<font style="color:lightcoral">@d[d.Length - 1] </font>
 
 						}
@@ -365,17 +371,21 @@ UserManager.GetUserName(User) == "superuser@nok.com"
 			{
 				<td class="locked_left">
 					<div class="delay">
-						<a href="#">@Model.Task[j].name</a><br>
+						<a href="#">@Model.Task[j].name</a><span>.</span><br>
 						@{
 							var d = Model.Task[j].duedate;
 
 							if (d.ToString().Contains("_") == true)
 							{
 								d = d.ToString().Split('_', StringSplitOptions.RemoveEmptyEntries);
+								<font style="color:black">@d[0] </font><br>
+								/*
 								for (int k = 0; k < d.Length - 1; k++)
 								{
 									<font style="color:black">@d[k] </font><br>
 								}
+								*/
+
 								<font style="color:blue">@d[d.Length - 1] </font>
 
 							}
@@ -390,29 +400,33 @@ UserManager.GetUserName(User) == "superuser@nok.com"
 			}
 			else
 			{
-				<td class="locked_left">
-					<a href="#">@Model.Task[j].name</a><br>
-					@{
-						var d = Model.Task[j].duedate;
+	<td class="locked_left">
+		<a href="#">@Model.Task[j].name</a><span>.</span><br>
+		@{
+			var d = Model.Task[j].duedate;
 
-						if (d.ToString().Contains("_") == true)
-						{
-							d = d.ToString().Split('_', StringSplitOptions.RemoveEmptyEntries);
-							for (int k = 0; k < d.Length - 1; k++)
-							{
-								<font style="color:black">@d[k] </font><br>
-							}
-							<font style="color:red">@d[d.Length - 1] </font>
+			if (d.ToString().Contains("_") == true)
+			{
+				d = d.ToString().Split('_', StringSplitOptions.RemoveEmptyEntries);
+				<font style="color:black">@d[0] </font><br>
+				/*
+				for (int k = 0; k < d.Length - 1; k++)
+				{
+					<font style="color:black">@d[k] </font><br>
+				}
+				*/
 
-						}
-						else
-						{
-							<font style="color:red">@Model.Task[j].duedate</font>
-						}
+				<font style="color:red">@d[d.Length - 1] </font>
 
-					}
+			}
+			else
+			{
+				<font style="color:red">@Model.Task[j].duedate</font>
+			}
 
-				</td>
+		}
+
+	</td>
 			}
 		}
 

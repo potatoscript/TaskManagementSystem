@@ -55,10 +55,12 @@ namespace TaskManagement.Areas.Identity.Pages.Account
         {
 
             [Required]
+            [DataType(DataType.Text)]
             [Display(Name = "Name")]
             public string Name { get; set; }
 
             [Required]
+            [DataType(DataType.Text)]
             [Display(Name = "Department")]
             public string Department { get; set; }
 
@@ -107,23 +109,24 @@ namespace TaskManagement.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    
+                    /* keep for review - there are saved into AspNetUsers by Identication
                     var name = Input.Name.Replace(" ", "_");
-
                     Constant d = new Constant();
                     string sql = "INSERT INTO " + d.tableUser + " ( " +
                                     d.id + ", " +
                                     d.name + ", " +
                                     d.spec + ", " +
-                                    d.email + ", " +
-                                    d.password + " " +
+                                    d.email + " " +
                                     ")SELECT COALESCE(MAX(" + d.id + "::Integer),0)+1," +
                                     "'" + name + "', " +
                                     "'" + Input.Department + "', " +
-                                    "'" + Input.Email + "', " +
-                                    "'" + Input.Password + "' " +
+                                    "'" + Input.Email + "' " +
                                     " FROM " + d.tableUser;
                     Database db = new Database(sql, _server);
                     db.Close();
+                    */
+                    
 
                     _logger.LogInformation("User created a new account with password.");
 

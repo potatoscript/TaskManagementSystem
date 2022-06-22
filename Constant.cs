@@ -75,7 +75,7 @@ namespace ProjectManagement
             tableDoc = "td_tms_doc";
             tableMaster = "tm_tms";
             tableProcess = "td_tms_process";
-            tableUser = "tm_user";
+          
             
             taskname = "taskname";
             td_tms_id = "td_tms_id";

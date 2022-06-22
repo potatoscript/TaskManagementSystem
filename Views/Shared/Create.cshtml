@@ -151,7 +151,7 @@
                                 <label asp-for="duedate"></label>
                             </div>
                             <div class="col-8">
-                                <input asp-for="duedate" value="@DateTime.Now.AddDays(0).ToString("dd-MM-yyyy")" class="form-control" autocomplete="off" />
+                                <input asp-for="duedate" value="@DateTime.Now.AddDays(3).ToString("dd-MM-yyyy")" class="form-control" autocomplete="off" />
                                 <span asp-validation-for="duedate" class="text-danger"></span>
                             </div>
                         </div>

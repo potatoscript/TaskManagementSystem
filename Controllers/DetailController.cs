@@ -38,9 +38,18 @@ namespace TaskManagement.Controllers
             )
         {
 
+            string name = taskname;//.Replace(" ", "_");
+            try
+            {
+                char[] separatingChars = {'.'};
+                var str = name.Split(separatingChars, System.StringSplitOptions.RemoveEmptyEntries);
+                name = str[0];
+            }
+            catch (Exception) { }
+
+
             dynamic mymodel = new ExpandoObject();
             ViewBag.td_tms_id = id;
-            string name = taskname.Replace(" ", "_");
             ViewBag.taskname = name;
             ViewBag.page = page;
             ViewBag.searchpic = searchpic;
