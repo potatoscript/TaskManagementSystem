@@ -20,7 +20,7 @@ The **Task Management System** is a robust, full-featured application designed t
 
 ## Demo
 
-🎥 [Click here to watch the demo video](https://github.com/potatoscript/TaskManagementSystem/wiki/Demo)  
+🎥 [Click here to watch the demo video](https://youtu.be/l6kjuRGdE9g?si=ZvcerMOhOQRrBZMA)  
 📸 Screenshots are available in the [Wiki](https://github.com/potatoscript/TaskManagementSystem/wiki/Screenshots).
 
 ## Technology Stack
